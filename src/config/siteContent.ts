@@ -69,9 +69,9 @@ export const siteConfig = {
     positioning: "Independent DevOps & Cloud Engineering Services",
     description:
       "Independent DevOps and Cloud Engineering services for AWS infrastructure, CI/CD automation, Docker deployments, cloud cost optimization, migration, and monitoring.",
-    heroHeading: "I Build, Automate & Scale Production Infrastructure.",
+    heroHeading: "I Don't Just Deploy Software. I Build the Infrastructure Behind It.",
     heroSubheading:
-      "I help startups and engineering teams deploy applications, automate delivery pipelines, optimize AWS cloud costs, and solve production problems with absolute reliability.",
+      "DevOps & Cloud Engineering for modern applications, reliable deployments and optimized infrastructure.",
     availability: "Available for Select Client Engagements",
     websiteUrl: "https://gautamdevgrover.online",
   },

@@ -3,26 +3,10 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Terminal, Shield, ArrowDown, CheckCircle, Award } from "lucide-react";
+import { ArrowRight, Terminal, Shield, ArrowDown, Award } from "lucide-react";
 import { HeroPhotoFrame } from "./HeroPhotoFrame";
-import {
-  KubernetesLogo,
-  AwsLogo,
-  DockerLogo,
-  JenkinsLogo,
-  GithubActionsLogo,
-  GitlabLogo,
-} from "@/components/icons/TechLogos";
 
 export const HeroSection: React.FC = () => {
-  const coreTech = [
-    { name: "Kubernetes", logo: <KubernetesLogo className="w-4 h-4" />, color: "hover:border-[#326CE5]/40 hover:shadow-[#326CE5]/10" },
-    { name: "AWS", logo: <AwsLogo className="w-5 h-4 text-white" />, color: "hover:border-[#FF9900]/40 hover:shadow-[#FF9900]/10" },
-    { name: "Docker", logo: <DockerLogo className="w-4 h-4" />, color: "hover:border-[#2496ED]/40 hover:shadow-[#2496ED]/10" },
-    { name: "Jenkins", logo: <JenkinsLogo className="w-4 h-4" />, color: "hover:border-[#D24939]/40 hover:shadow-[#D24939]/10" },
-    { name: "GitHub Actions", logo: <GithubActionsLogo className="w-4 h-4" />, color: "hover:border-[#2088FF]/40 hover:shadow-[#2088FF]/10" },
-    { name: "GitLab", logo: <GitlabLogo className="w-4 h-4" />, color: "hover:border-[#FC6D26]/40 hover:shadow-[#FC6D26]/10" },
-  ];
 
   return (
     <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
@@ -48,7 +32,7 @@ export const HeroSection: React.FC = () => {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
               <span className="text-xs font-mono font-medium text-slate-300">
-                Independent DevOps & Cloud Practice
+                Gautam Dev &middot; DevOps &amp; Cloud Practice
               </span>
               <span className="text-slate-600 hidden sm:inline">•</span>
               <span className="text-xs font-mono text-cyan-400 font-semibold hidden sm:inline">
@@ -56,99 +40,86 @@ export const HeroSection: React.FC = () => {
               </span>
             </motion.div>
 
-            {/* Main Headline */}
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className="space-y-2"
-            >
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-[1.08]">
-                I Build, Automate &{" "}
-                <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">
-                  Scale Production
-                </span>{" "}
-                Infrastructure.
-              </h1>
-            </motion.div>
+            {/* Main Headline: Two-line Statement with Clear Hierarchy */}
+            <div className="space-y-2">
+              <h1 className="tracking-tight">
+                {/* Line 1: Slightly smaller / lighter */}
+                <motion.span
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.55, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+                  className="block text-2xl sm:text-3xl md:text-4xl lg:text-[2.6rem] font-medium text-slate-300/90 leading-snug"
+                >
+                  I Don&apos;t Just Deploy Software.
+                </motion.span>
 
-            {/* Supporting Copy */}
+                {/* Line 2: Dominant headline with visual anchor */}
+                <motion.span
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                  className="block text-3xl sm:text-5xl md:text-6xl lg:text-[3.85rem] font-black text-white leading-[1.08] mt-2 sm:mt-3"
+                >
+                  I Build the{" "}
+                  <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">
+                    Infrastructure
+                  </span>{" "}
+                  Behind It.
+                </motion.span>
+              </h1>
+            </div>
+
+            {/* Subtitle: Short and visually secondary */}
             <motion.p
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-              className="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed font-normal"
+              transition={{ duration: 0.55, delay: 0.26, ease: [0.16, 1, 0.3, 1] }}
+              className="text-base sm:text-lg md:text-xl text-slate-300/90 max-w-2xl leading-relaxed font-normal"
             >
-              I help startups and engineering teams deploy applications, automate delivery pipelines, optimize AWS cloud costs, and solve production problems with absolute reliability.
+              DevOps &amp; Cloud Engineering for modern applications, reliable deployments and optimized infrastructure.
             </motion.p>
 
-            {/* DevOps Core Stack Banner */}
+            {/* Subtle Technical Keywords Line */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
-              className="space-y-2 pt-1"
+              transition={{ duration: 0.5, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs sm:text-sm font-mono text-slate-400 pt-1"
             >
-              <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 uppercase tracking-wider">
-                <span>Core Technology Stack</span>
-                <span className="text-slate-400">Cloud · CI/CD · Containers · Observability</span>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
-                {coreTech.map((item) => (
-                  <div
-                    key={item.name}
-                    className={`flex items-center gap-2 px-2.5 py-2 rounded-xl bg-white/[0.02] border border-white/10 hover:bg-white/[0.06] transition-all duration-200 shadow-sm ${item.color} group cursor-default`}
-                  >
-                    <div className="transition-transform duration-200 group-hover:scale-110">
-                      {item.logo}
-                    </div>
-                    <span className="text-xs font-mono font-semibold text-slate-300 group-hover:text-white truncate">
-                      {item.name}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Quick Proof Badges */}
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-wrap gap-2 text-xs font-mono text-slate-400 pt-1"
-            >
-              <span className="px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/5 flex items-center gap-1.5">
-                <CheckCircle className="w-3.5 h-3.5 text-cyan-400" /> 700+ Repos Migrated
-              </span>
-              <span className="px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/5 flex items-center gap-1.5">
-                <CheckCircle className="w-3.5 h-3.5 text-cyan-400" /> 1.7 TB → 400 MB S3
-              </span>
-              <span className="px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/5 flex items-center gap-1.5">
-                <CheckCircle className="w-3.5 h-3.5 text-cyan-400" /> ~$200/mo AWS Saved
-              </span>
+              <span className="text-slate-300">Cloud Infrastructure</span>
+              <span className="text-cyan-500/60 font-bold select-none" aria-hidden="true">·</span>
+              <span className="text-slate-300">CI/CD</span>
+              <span className="text-cyan-500/60 font-bold select-none" aria-hidden="true">·</span>
+              <span className="text-slate-300">Migrations</span>
+              <span className="text-cyan-500/60 font-bold select-none" aria-hidden="true">·</span>
+              <span className="text-slate-300">Cost Optimization</span>
+              <span className="text-cyan-500/60 font-bold select-none" aria-hidden="true">·</span>
+              <span className="text-slate-300">Monitoring</span>
             </motion.div>
 
             {/* Call to Action Buttons */}
             <motion.div
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-wrap items-center gap-4 pt-2"
             >
+              {/* Primary CTA: Visually stronger */}
               <Link
                 href="/about#contact"
                 className="group relative inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl text-sm font-semibold tracking-wider uppercase text-white bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 shadow-xl shadow-cyan-500/20 hover:shadow-cyan-500/30 transition-all active:scale-[0.98]"
               >
-                <span>START A PROJECT</span>
+                <span>Start a Project</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
 
+              {/* Secondary CTA */}
               <Link
-                href="/about"
+                href="#capabilities"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-medium tracking-wide text-slate-300 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 transition-all active:scale-[0.98]"
               >
                 <Terminal className="w-4 h-4 text-cyan-400" />
-                <span>ABOUT & SERVICES</span>
+                <span>Explore Services</span>
               </Link>
             </motion.div>
 
@@ -156,7 +127,7 @@ export const HeroSection: React.FC = () => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.45 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
               className="pt-2 flex items-center gap-6 text-xs text-slate-500 font-mono"
             >
               <span className="flex items-center gap-1.5">
