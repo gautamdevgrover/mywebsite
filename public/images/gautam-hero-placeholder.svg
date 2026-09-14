@@ -1,0 +1,56 @@
+<svg width="800" height="1000" viewBox="0 0 800 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E131F" />
+      <stop offset="50%" stop-color="#121826" />
+      <stop offset="100%" stop-color="#080B12" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D2FF" />
+      <stop offset="100%" stop-color="#6366F1" />
+    </linearGradient>
+    <radialGradient id="glowGrad" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#00D2FF" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#00D2FF" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="1000" fill="url(#bgGrad)" />
+  <rect width="800" height="1000" fill="url(#grid)" />
+  <circle cx="400" cy="400" r="320" fill="url(#glowGrad)" />
+
+  <!-- Technical Circles & Scanner Rings -->
+  <circle cx="400" cy="400" r="280" stroke="rgba(0, 210, 255, 0.2)" stroke-width="1" stroke-dasharray="8 8" />
+  <circle cx="400" cy="400" r="220" stroke="rgba(99, 102, 241, 0.25)" stroke-width="1.5" />
+  <circle cx="400" cy="400" r="160" stroke="rgba(0, 210, 255, 0.4)" stroke-width="1" stroke-dasharray="4 4" />
+
+  <!-- Center Portrait Silhouette / Avatar Icon -->
+  <g transform="translate(400, 390)">
+    <!-- Head -->
+    <circle cx="0" cy="-60" r="65" fill="#182236" stroke="url(#accentGrad)" stroke-width="2.5" />
+    <!-- Monogram GD inside head -->
+    <text x="0" y="-48" text-anchor="middle" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="34" font-weight="700" letter-spacing="2">GD</text>
+    <!-- Shoulders -->
+    <path d="M -130 110 C -130 35, -75 5, 0 5 C 75 5, 130 35, 130 110 Z" fill="#182236" stroke="url(#accentGrad)" stroke-width="2.5" />
+  </g>
+
+  <!-- Framing Bracket Accents -->
+  <path d="M 60 100 L 60 60 L 100 60" stroke="#00D2FF" stroke-width="2" fill="none" />
+  <path d="M 740 100 L 740 60 L 700 60" stroke="#00D2FF" stroke-width="2" fill="none" />
+  <path d="M 60 900 L 60 940 L 100 940" stroke="#00D2FF" stroke-width="2" fill="none" />
+  <path d="M 740 900 L 740 940 L 700 940" stroke="#00D2FF" stroke-width="2" fill="none" />
+
+  <!-- Badge / Placeholder Notice -->
+  <rect x="220" y="660" width="360" height="70" rx="8" fill="rgba(13, 17, 23, 0.9)" stroke="rgba(0, 210, 255, 0.4)" stroke-width="1" />
+  <circle cx="255" cy="695" r="5" fill="#10B981" />
+  <text x="275" y="691" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" letter-spacing="1">GAUTAM DEV · PORTRAIT SLOT</text>
+  <text x="275" y="711" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">Replace with /public/images/gautam-hero.jpg</text>
+
+  <!-- Technical coordinates footer -->
+  <text x="60" y="965" fill="rgba(255, 255, 255, 0.3)" font-family="monospace" font-size="11">SYS_SPEC: DEVOPS_ENGINEER_PORTRAIT_PRIMARY</text>
+  <text x="740" y="965" text-anchor="end" fill="rgba(0, 210, 255, 0.6)" font-family="monospace" font-size="11">STATUS: READY_FOR_PHOTO</text>
+</svg>

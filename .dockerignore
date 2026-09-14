@@ -1,0 +1,31 @@
+# Git and documentation
+.git
+.gitignore
+README.md
+deploy.sh
+nginx/
+
+# Environment files and credentials
+.env*
+!.env.example
+
+# Build outputs and dependencies
+node_modules
+.next
+build
+dist
+coverage
+
+# Local databases and runtime data
+data/
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs and system caches
+*.log
+npm-debug.log*
+yarn-debug.log*
+.DS_Store
+.vscode
+.idea

@@ -1,0 +1,53 @@
+services:
+  # ----------------------------------------------------------------------------
+  # PostgreSQL Database Service (Internal Network Only - Zero Public Exposure)
+  # ----------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: gautamdev_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-gautam}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-devops_secure_pass_change_me}
+      POSTGRES_DB: ${POSTGRES_DB:-devops_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-gautam} -d ${POSTGRES_DB:-devops_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ----------------------------------------------------------------------------
+  # Next.js Application Service (Bound strictly to localhost 127.0.0.1:3000)
+  # ----------------------------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gautamdev_app
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-gautam}:${POSTGRES_PASSWORD:-devops_secure_pass_change_me}@postgres:5432/${POSTGRES_DB:-devops_db}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app_network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  app_network:
+    driver: bridge
