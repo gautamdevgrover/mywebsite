@@ -1,8 +1,28 @@
 import pg from "pg";
-import { DatabaseSync } from "node:sqlite";
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+
+export interface SqliteDatabaseInstance {
+  exec: (sql: string) => void;
+  prepare: (sql: string) => {
+    run: (...args: unknown[]) => void;
+    all: (...args: unknown[]) => unknown[];
+    get: (...args: unknown[]) => unknown;
+  };
+}
+
+type DatabaseSyncConstructor = new (path: string) => SqliteDatabaseInstance;
+
+// Safely load node:sqlite if available in the current Node.js runtime (Node.js 22.5.0+)
+let DatabaseSyncClass: DatabaseSyncConstructor | null = null;
+try {
+  const dynamicRequire = eval("require") as NodeRequire;
+  const sqlite = dynamicRequire("node:sqlite") as { DatabaseSync?: DatabaseSyncConstructor };
+  DatabaseSyncClass = sqlite?.DatabaseSync || null;
+} catch {
+  DatabaseSyncClass = null;
+}
 
 export interface ContactSubmission {
   id: string;
@@ -26,7 +46,7 @@ export interface SubmissionStats {
 
 // Global cache to persist connections across hot reloads
 declare global {
-  var __dbInstance: DatabaseSync | undefined;
+  var __dbInstance: SqliteDatabaseInstance | undefined;
   var __pgPool: pg.Pool | undefined;
   var __pgInitialized: boolean | undefined;
 }
@@ -67,7 +87,35 @@ async function ensurePgSchema(pool: pg.Pool): Promise<void> {
   global.__pgInitialized = true;
 }
 
-function getDatabase(): DatabaseSync {
+function getJsonDbPath(): string {
+  const dataDir = path.join(process.cwd(), "data");
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+  }
+  return path.join(dataDir, "submissions.json");
+}
+
+function readJsonSubmissions(): ContactSubmission[] {
+  const filePath = getJsonDbPath();
+  if (!fs.existsSync(filePath)) return [];
+  try {
+    const raw = fs.readFileSync(filePath, "utf-8");
+    return JSON.parse(raw);
+  } catch {
+    return [];
+  }
+}
+
+function writeJsonSubmissions(items: ContactSubmission[]): void {
+  const filePath = getJsonDbPath();
+  fs.writeFileSync(filePath, JSON.stringify(items, null, 2), "utf-8");
+}
+
+function getDatabase(): SqliteDatabaseInstance | null {
+  if (!DatabaseSyncClass) {
+    return null;
+  }
+
   if (global.__dbInstance) {
     return global.__dbInstance;
   }
@@ -78,7 +126,7 @@ function getDatabase(): DatabaseSync {
   }
 
   const dbPath = path.join(dataDir, "devops.db");
-  const db = new DatabaseSync(dbPath);
+  const db = new DatabaseSyncClass(dbPath);
 
   // Enable WAL mode for better concurrency and performance
   db.exec("PRAGMA journal_mode = WAL;");
@@ -148,21 +196,38 @@ export async function createSubmission(data: {
   const id = crypto.randomUUID();
   const now = new Date().toISOString();
 
-  const stmt = db.prepare(`
-    INSERT INTO contact_submissions (id, name, email, company, service, message, status, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, 'new', ?, ?)
-  `);
+  if (db) {
+    const stmt = db.prepare(`
+      INSERT INTO contact_submissions (id, name, email, company, service, message, status, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, 'new', ?, ?)
+    `);
 
-  stmt.run(
-    id,
-    data.name.trim(),
-    data.email.trim().toLowerCase(),
-    data.company ? data.company.trim() : null,
-    data.service.trim(),
-    data.message.trim(),
-    now,
-    now
-  );
+    stmt.run(
+      id,
+      data.name.trim(),
+      data.email.trim().toLowerCase(),
+      data.company ? data.company.trim() : null,
+      data.service.trim(),
+      data.message.trim(),
+      now,
+      now
+    );
+  } else {
+    const list = readJsonSubmissions();
+    const record: ContactSubmission = {
+      id,
+      name: data.name.trim(),
+      email: data.email.trim().toLowerCase(),
+      company: data.company ? data.company.trim() : null,
+      service: data.service.trim(),
+      message: data.message.trim(),
+      status: "new",
+      created_at: now,
+      updated_at: now,
+    };
+    list.unshift(record);
+    writeJsonSubmissions(list);
+  }
 
   return {
     id,
@@ -224,33 +289,53 @@ export async function listSubmissions(options?: {
   }
 
   const db = getDatabase();
-  let query = "SELECT * FROM contact_submissions";
-  const conditions: string[] = [];
-  const params: unknown[] = [];
+  if (db) {
+    let query = "SELECT * FROM contact_submissions";
+    const conditions: string[] = [];
+    const params: unknown[] = [];
 
+    if (options?.status && options.status !== "all") {
+      conditions.push("status = ?");
+      params.push(options.status);
+    }
+
+    if (options?.search && options.search.trim() !== "") {
+      const searchPattern = `%${options.search.trim().toLowerCase()}%`;
+      conditions.push(
+        "(LOWER(name) LIKE ? OR LOWER(email) LIKE ? OR LOWER(company) LIKE ? OR LOWER(service) LIKE ? OR LOWER(message) LIKE ?)"
+      );
+      params.push(searchPattern, searchPattern, searchPattern, searchPattern, searchPattern);
+    }
+
+    if (conditions.length > 0) {
+      query += ` WHERE ${conditions.join(" AND ")}`;
+    }
+
+    query += ` ORDER BY created_at DESC LIMIT ? OFFSET ?`;
+    params.push(limit, offset);
+
+    const stmt = db.prepare(query);
+    const rows = stmt.all(...params) as unknown as ContactSubmission[];
+    return rows;
+  }
+
+  // JSON fallback
+  let list = readJsonSubmissions();
   if (options?.status && options.status !== "all") {
-    conditions.push("status = ?");
-    params.push(options.status);
+    list = list.filter((item) => item.status === options.status);
   }
-
   if (options?.search && options.search.trim() !== "") {
-    const searchPattern = `%${options.search.trim().toLowerCase()}%`;
-    conditions.push(
-      "(LOWER(name) LIKE ? OR LOWER(email) LIKE ? OR LOWER(company) LIKE ? OR LOWER(service) LIKE ? OR LOWER(message) LIKE ?)"
+    const q = options.search.trim().toLowerCase();
+    list = list.filter(
+      (item) =>
+        item.name.toLowerCase().includes(q) ||
+        item.email.toLowerCase().includes(q) ||
+        (item.company && item.company.toLowerCase().includes(q)) ||
+        item.service.toLowerCase().includes(q) ||
+        item.message.toLowerCase().includes(q)
     );
-    params.push(searchPattern, searchPattern, searchPattern, searchPattern, searchPattern);
   }
-
-  if (conditions.length > 0) {
-    query += ` WHERE ${conditions.join(" AND ")}`;
-  }
-
-  query += ` ORDER BY created_at DESC LIMIT ? OFFSET ?`;
-  params.push(limit, offset);
-
-  const stmt = db.prepare(query);
-  const rows = stmt.all(...params) as unknown as ContactSubmission[];
-  return rows;
+  return list.slice(offset, offset + limit);
 }
 
 export async function getSubmissionById(id: string): Promise<ContactSubmission | null> {
@@ -268,9 +353,14 @@ export async function getSubmissionById(id: string): Promise<ContactSubmission |
   }
 
   const db = getDatabase();
-  const stmt = db.prepare("SELECT * FROM contact_submissions WHERE id = ?");
-  const row = stmt.get(id) as unknown as ContactSubmission | undefined;
-  return row || null;
+  if (db) {
+    const stmt = db.prepare("SELECT * FROM contact_submissions WHERE id = ?");
+    const row = stmt.get(id) as unknown as ContactSubmission | undefined;
+    return row || null;
+  }
+
+  const list = readJsonSubmissions();
+  return list.find((item) => item.id === id) || null;
 }
 
 export async function updateSubmissionStatus(
@@ -295,10 +385,21 @@ export async function updateSubmissionStatus(
 
   const db = getDatabase();
   const now = new Date().toISOString();
-  const stmt = db.prepare(
-    "UPDATE contact_submissions SET status = ?, updated_at = ? WHERE id = ?"
-  );
-  stmt.run(status, now, id);
+
+  if (db) {
+    const stmt = db.prepare(
+      "UPDATE contact_submissions SET status = ?, updated_at = ? WHERE id = ?"
+    );
+    stmt.run(status, now, id);
+  } else {
+    const list = readJsonSubmissions();
+    const item = list.find((sub) => sub.id === id);
+    if (item) {
+      item.status = status;
+      item.updated_at = now;
+      writeJsonSubmissions(list);
+    }
+  }
 
   return getSubmissionById(id);
 }
@@ -312,8 +413,15 @@ export async function deleteSubmission(id: string): Promise<boolean> {
   }
 
   const db = getDatabase();
-  const stmt = db.prepare("DELETE FROM contact_submissions WHERE id = ?");
-  stmt.run(id);
+  if (db) {
+    const stmt = db.prepare("DELETE FROM contact_submissions WHERE id = ?");
+    stmt.run(id);
+    return true;
+  }
+
+  let list = readJsonSubmissions();
+  list = list.filter((sub) => sub.id !== id);
+  writeJsonSubmissions(list);
   return true;
 }
 
@@ -339,23 +447,34 @@ export async function getSubmissionStats(): Promise<SubmissionStats> {
   }
 
   const db = getDatabase();
-  const totalStmt = db.prepare("SELECT COUNT(*) as count FROM contact_submissions");
-  const newStmt = db.prepare("SELECT COUNT(*) as count FROM contact_submissions WHERE status = 'new'");
-  const readStmt = db.prepare("SELECT COUNT(*) as count FROM contact_submissions WHERE status = 'read'");
-  const repliedStmt = db.prepare("SELECT COUNT(*) as count FROM contact_submissions WHERE status = 'replied'");
-  const archivedStmt = db.prepare("SELECT COUNT(*) as count FROM contact_submissions WHERE status = 'archived'");
+  if (db) {
+    const totalStmt = db.prepare("SELECT COUNT(*) as count FROM contact_submissions");
+    const newStmt = db.prepare("SELECT COUNT(*) as count FROM contact_submissions WHERE status = 'new'");
+    const readStmt = db.prepare("SELECT COUNT(*) as count FROM contact_submissions WHERE status = 'read'");
+    const repliedStmt = db.prepare("SELECT COUNT(*) as count FROM contact_submissions WHERE status = 'replied'");
+    const archivedStmt = db.prepare("SELECT COUNT(*) as count FROM contact_submissions WHERE status = 'archived'");
 
-  const total = ((totalStmt.get() as { count: number | bigint })?.count ?? 0);
-  const newCount = ((newStmt.get() as { count: number | bigint })?.count ?? 0);
-  const read = ((readStmt.get() as { count: number | bigint })?.count ?? 0);
-  const replied = ((repliedStmt.get() as { count: number | bigint })?.count ?? 0);
-  const archived = ((archivedStmt.get() as { count: number | bigint })?.count ?? 0);
+    const total = ((totalStmt.get() as { count: number | bigint })?.count ?? 0);
+    const newCount = ((newStmt.get() as { count: number | bigint })?.count ?? 0);
+    const read = ((readStmt.get() as { count: number | bigint })?.count ?? 0);
+    const replied = ((repliedStmt.get() as { count: number | bigint })?.count ?? 0);
+    const archived = ((archivedStmt.get() as { count: number | bigint })?.count ?? 0);
 
+    return {
+      total: Number(total),
+      new: Number(newCount),
+      read: Number(read),
+      replied: Number(replied),
+      archived: Number(archived),
+    };
+  }
+
+  const list = readJsonSubmissions();
   return {
-    total: Number(total),
-    new: Number(newCount),
-    read: Number(read),
-    replied: Number(replied),
-    archived: Number(archived),
+    total: list.length,
+    new: list.filter((item) => item.status === "new").length,
+    read: list.filter((item) => item.status === "read").length,
+    replied: list.filter((item) => item.status === "replied").length,
+    archived: list.filter((item) => item.status === "archived").length,
   };
 }
