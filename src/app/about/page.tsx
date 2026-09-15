@@ -15,12 +15,12 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="relative min-h-screen bg-[#08090C] text-[#E2E8F0] selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div className="relative min-h-screen bg-[#08090C] text-[#E2E8F0] selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden w-full max-w-full">
       {/* Navigation */}
       <Navbar />
 
       {/* Main Content */}
-      <main className="relative z-10 flex-grow pt-16">
+      <main className="relative z-10 flex-grow pt-16 overflow-x-hidden w-full max-w-full">
         {/* 1. Founder Story & Values: "Built by an Engineer, Not a Sales Team" */}
         <AboutSection />
 

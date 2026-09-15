@@ -7,8 +7,8 @@ import { AnimatedCounter, StorageReductionVisual } from "@/components/ui/Animate
 
 export const EngineeringProofs: React.FC = () => {
   return (
-    <section id="proof" className="py-12 sm:py-20 md:py-28 border-t border-white/5 bg-[#080B12]/60 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="proof" className="py-12 sm:py-20 md:py-28 border-t border-white/5 bg-[#080B12]/60 relative overflow-hidden w-full max-w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

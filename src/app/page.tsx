@@ -11,12 +11,12 @@ import { Footer } from "@/components/footer/Footer";
 
 export default function HomePage() {
   return (
-    <div className="relative min-h-screen bg-[#08090C] text-[#E2E8F0] selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div className="relative min-h-screen bg-[#08090C] text-[#E2E8F0] selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden w-full max-w-full">
       {/* 1. Minimal Sticky Navigation */}
       <Navbar />
 
       {/* Main Content */}
-      <main className="relative z-10 flex-grow">
+      <main className="relative z-10 flex-grow overflow-x-hidden w-full max-w-full">
         {/* 2. Hero Section with Real Photo Frame & Operational Beacon */}
         <HeroSection />
 

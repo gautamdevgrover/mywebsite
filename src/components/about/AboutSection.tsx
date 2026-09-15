@@ -15,19 +15,19 @@ export const AboutSection: React.FC = () => {
   const [showFullStory, setShowFullStory] = useState(false);
 
   return (
-    <section id="about" className="relative py-12 sm:py-20 md:py-32 bg-[#080B12] border-t border-white/10">
+    <section id="about" className="relative py-12 sm:py-20 md:py-32 bg-[#080B12] border-t border-white/10 overflow-hidden w-full max-w-full">
       {/* Background Ambience */}
       <div className="absolute inset-0 tech-grid opacity-15 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start w-full">
           {/* Left Column: Photo Frame & CKA Credential Card */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 space-y-4 sm:space-y-6"
+            className="w-full lg:col-span-5 space-y-4 sm:space-y-6"
           >
             <div className="relative rounded-2xl border border-white/15 bg-[#0D121D] p-1.5 sm:p-2 shadow-2xl overflow-hidden group">
               <div className="relative aspect-[3/2] sm:aspect-[4/3] lg:aspect-[4/5] w-full rounded-xl overflow-hidden bg-[#0A0D15]">
@@ -65,7 +65,7 @@ export const AboutSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-7 space-y-6 sm:space-y-8"
+            className="w-full lg:col-span-7 space-y-6 sm:space-y-8"
           >
             <SectionHeading
               badge="// FOUNDER STORY"

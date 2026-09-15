@@ -88,7 +88,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className="dark scroll-smooth h-full antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+    <html lang="en" className="dark scroll-smooth h-full antialiased selection:bg-cyan-500/30 selection:text-cyan-200 overflow-x-hidden max-w-full">
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <script
@@ -96,7 +96,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-[#08090C] text-[#E2E8F0] font-sans antialiased overflow-x-hidden">
+      <body className="min-h-full flex flex-col bg-[#08090C] text-[#E2E8F0] font-sans antialiased overflow-x-hidden max-w-full w-full">
         {children}
       </body>
     </html>

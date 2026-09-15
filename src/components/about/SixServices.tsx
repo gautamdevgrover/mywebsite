@@ -160,8 +160,8 @@ export const SixServices: React.FC = () => {
   ];
 
   return (
-    <section id="services" className="py-12 sm:py-20 md:py-28 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="services" className="py-12 sm:py-20 md:py-28 relative overflow-hidden w-full max-w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
