@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Terminal, CheckCircle2, ChevronRight, Server } from "lucide-react";
 import {
@@ -31,6 +31,29 @@ interface PipelineNode {
 
 export const ProductionPipeline: React.FC = () => {
   const [selectedNodeIndex, setSelectedNodeIndex] = useState<number>(0);
+  const tabsContainerRef = useRef<HTMLDivElement | null>(null);
+  const activeTabRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    // Only scroll within the tabs container rail if the active tab moves out of view
+    if (activeTabRef.current && tabsContainerRef.current) {
+      const container = tabsContainerRef.current;
+      const tab = activeTabRef.current;
+      const tabLeft = tab.offsetLeft;
+      const tabWidth = tab.offsetWidth;
+      const containerScrollLeft = container.scrollLeft;
+      const containerWidth = container.clientWidth;
+
+      if (tabLeft < containerScrollLeft) {
+        container.scrollTo({ left: Math.max(0, tabLeft - 8), behavior: "smooth" });
+      } else if (tabLeft + tabWidth > containerScrollLeft + containerWidth) {
+        container.scrollTo({
+          left: tabLeft + tabWidth - containerWidth + 8,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [selectedNodeIndex]);
 
   const nodes: PipelineNode[] = [
     {
@@ -325,20 +348,24 @@ export const ProductionPipeline: React.FC = () => {
         </div>
 
         {/* 2. MOBILE VIEW: Interactive Horizontal Stage Selector Rail */}
-        <div className="lg:hidden mb-4">
-          <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-2 px-1">
+        <div className="lg:hidden mb-4 w-full">
+          <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-2 px-0.5">
             <span>TAP STAGE TO INSPECT</span>
             <span className="text-cyan-400 font-semibold">{currentNode.step}/08 · {currentNode.shortName}</span>
           </div>
 
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none snap-x snap-mandatory -mx-4 px-4">
+          <div
+            ref={tabsContainerRef}
+            className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none w-full max-w-full touch-pan-x"
+          >
             {nodes.map((node, index) => {
               const isSelected = selectedNodeIndex === index;
               return (
                 <button
                   key={node.id}
+                  ref={isSelected ? activeTabRef : null}
                   onClick={() => setSelectedNodeIndex(index)}
-                  className={`flex-shrink-0 snap-center flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-mono transition-all cursor-pointer ${
+                  className={`flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-mono transition-all cursor-pointer ${
                     isSelected
                       ? "bg-cyan-500/20 border-cyan-400 text-white shadow-md shadow-cyan-500/10 font-bold"
                       : "bg-[#0C1019] border-white/10 text-slate-400 hover:border-white/20 hover:text-white"

@@ -46,15 +46,15 @@ export const Navbar: React.FC = () => {
 
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5 sm:gap-2">
-              <span className="text-sm sm:text-base font-bold tracking-wider text-white group-hover:text-cyan-400 transition-colors">
+              <span className="text-sm sm:text-base font-bold tracking-wider text-white whitespace-nowrap group-hover:text-cyan-400 transition-colors">
                 {siteConfig.brand.name}
               </span>
-              <span className="inline-flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] font-mono font-medium text-emerald-400/90 bg-emerald-950/40 border border-emerald-500/20 shadow-sm whitespace-nowrap">
+              <span className="hidden sm:inline-flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] font-mono font-medium text-emerald-400/90 bg-emerald-950/40 border border-emerald-500/20 shadow-sm whitespace-nowrap">
                 <Terminal className="w-2.5 h-2.5 text-emerald-400 shrink-0" />
                 <span>DevOps Engineer</span>
               </span>
             </div>
-            <span className="text-[10px] sm:text-[11px] font-mono tracking-tight text-slate-400">
+            <span className="text-[10px] sm:text-[11px] font-mono tracking-tight text-slate-400 whitespace-nowrap truncate max-w-[220px] sm:max-w-none">
               {siteConfig.brand.tagline}
             </span>
           </div>
@@ -96,17 +96,11 @@ export const Navbar: React.FC = () => {
         </div>
 
         {/* Mobile Burger Toggle */}
-        <div className="flex sm:hidden items-center gap-2">
-          <Link
-            href="/about#contact"
-            className="px-3 py-1.5 rounded-md text-xs font-semibold text-white bg-cyan-500/20 border border-cyan-500/40"
-          >
-            START
-          </Link>
+        <div className="flex sm:hidden items-center">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Navigation Menu"
-            className="p-2 rounded-lg text-slate-300 hover:text-white bg-white/5 border border-white/10"
+            className="p-2 rounded-lg text-slate-300 hover:text-white bg-white/5 border border-white/10 transition-colors"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
