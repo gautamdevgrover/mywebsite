@@ -30,7 +30,7 @@ export const AboutSection: React.FC = () => {
             className="lg:col-span-5 space-y-4 sm:space-y-6"
           >
             <div className="relative rounded-2xl border border-white/15 bg-[#0D121D] p-1.5 sm:p-2 shadow-2xl overflow-hidden group">
-              <div className="relative aspect-[16/10] sm:aspect-[4/3] lg:aspect-[4/5] w-full rounded-xl overflow-hidden bg-[#0A0D15]">
+              <div className="relative aspect-[3/2] sm:aspect-[4/3] lg:aspect-[4/5] w-full rounded-xl overflow-hidden bg-[#0A0D15]">
                 <Image
                   src={aboutImg}
                   alt="Gautam Dev - Cloud & DevOps Engineer"
@@ -44,13 +44,13 @@ export const AboutSection: React.FC = () => {
                     }
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#090C13] via-transparent to-transparent opacity-80 pointer-events-none" />
+              </div>
 
-                <div className="absolute bottom-2.5 sm:bottom-3 left-2.5 sm:left-3 right-2.5 sm:right-3 p-2.5 sm:p-3 rounded-lg bg-[#080B12]/85 backdrop-blur-md border border-white/10 text-xs font-mono">
-                  <div className="flex items-center justify-between text-slate-300">
-                    <span className="font-bold text-white">Gautam Dev</span>
-                    <span className="text-cyan-400 text-[11px] sm:text-xs">FOUNDER &amp; ENGINEER</span>
-                  </div>
+              {/* Status bar placed below photo, not blocking it */}
+              <div className="mt-1.5 p-2 sm:p-2.5 rounded-lg bg-[#080B12] border border-white/5 text-xs font-mono">
+                <div className="flex items-center justify-between text-slate-300">
+                  <span className="font-bold text-white">Gautam Dev</span>
+                  <span className="text-cyan-400 text-[11px] sm:text-xs">FOUNDER &amp; ENGINEER</span>
                 </div>
               </div>
             </div>

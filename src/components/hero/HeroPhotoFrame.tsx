@@ -43,46 +43,42 @@ export const HeroPhotoFrame: React.FC<HeroPhotoFrameProps> = ({
           </div>
         </div>
 
-        {/* Photo Canvas - 16/10 on mobile, 4/3 on tablet, 4/5 on desktop */}
-        <div className="relative aspect-[16/10] sm:aspect-[4/3] lg:aspect-[4/5] w-full overflow-hidden rounded-lg bg-[#0E131F]">
+        {/* Photo Canvas - 3/2 aspect ratio matching native 1536x1024 photo, completely unobstructed */}
+        <div className="relative aspect-[3/2] sm:aspect-[3/2] lg:aspect-[4/3] w-full overflow-hidden rounded-lg bg-[#0E131F]">
           <Image
             src={imgSrc}
             alt={alt}
             fill
             unoptimized
             priority
-            sizes="(max-width: 768px) 100vw, 500px"
-            className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.01]"
+            sizes="(max-width: 768px) 100vw, 550px"
+            className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.01]"
             onError={() => {
               if (imgSrc !== fallbackSrc) {
                 setImgSrc(fallbackSrc);
               }
             }}
           />
+        </div>
 
-          {/* Vignette Gradients */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0D14] via-transparent to-transparent opacity-85 pointer-events-none" />
-
-          {/* Floating Subtle Status Pill */}
-          <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between p-3 rounded-xl bg-[#080B12]/85 backdrop-blur-md border border-white/10 text-xs font-mono">
-            <div className="flex items-center gap-2.5">
-              <div className="p-1.5 rounded-lg bg-cyan-500/10 text-cyan-400">
-                <Cpu className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="font-bold text-white tracking-wide">
-                  Gautam Dev
-                </div>
-                <div className="text-[10px] text-slate-400">
-                  Cloud &middot; DevOps &middot; Infrastructure
-                </div>
-              </div>
+        {/* Integrated Status Footer Bar - Sits cleanly below the photo, zero occlusion */}
+        <div className="flex items-center justify-between px-3 py-2 mt-1.5 bg-[#080B12] rounded-b-xl border-t border-white/5 font-mono text-xs">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="p-1 rounded bg-cyan-500/10 text-cyan-400 shrink-0">
+              <Cpu className="w-3.5 h-3.5" />
             </div>
-
-            <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/30 text-[10px] text-emerald-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>ACTIVE</span>
+            <div className="flex items-center gap-2 truncate">
+              <span className="font-bold text-white text-xs">Gautam Dev</span>
+              <span className="text-slate-600 hidden sm:inline">•</span>
+              <span className="text-[10px] text-slate-400 hidden sm:inline truncate">
+                Cloud &middot; DevOps &middot; Infrastructure
+              </span>
             </div>
+          </div>
+
+          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-[10px] text-emerald-400 font-mono shrink-0">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>ACTIVE</span>
           </div>
         </div>
       </div>
