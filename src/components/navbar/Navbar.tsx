@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowUpRight, ShieldCheck } from "lucide-react";
+import { Menu, X, ArrowUpRight, Terminal } from "lucide-react";
 import { siteConfig } from "@/config/siteContent";
 
 export const Navbar: React.FC = () => {
@@ -49,12 +49,13 @@ export const Navbar: React.FC = () => {
               <span className="text-sm sm:text-base font-bold tracking-wider text-white group-hover:text-cyan-400 transition-colors">
                 {siteConfig.brand.name}
               </span>
-              <span className="hidden md:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-medium text-emerald-400 bg-emerald-950/60 border border-emerald-800/40">
-                <ShieldCheck className="w-2.5 h-2.5" />
-                CKA
+              <span className="inline-flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] font-mono font-medium text-emerald-400/90 bg-emerald-950/40 border border-emerald-500/20 shadow-sm">
+                <Terminal className="w-2.5 h-2.5 text-emerald-400 shrink-0" />
+                <span className="hidden min-[380px]:inline">DevOps Engineer</span>
+                <span className="min-[380px]:hidden">DevOps</span>
               </span>
             </div>
-            <span className="text-[10px] sm:text-[11px] font-mono tracking-tight text-slate-400 hidden xs:inline sm:inline">
+            <span className="text-[10px] sm:text-[11px] font-mono tracking-tight text-slate-400">
               {siteConfig.brand.tagline}
             </span>
           </div>
