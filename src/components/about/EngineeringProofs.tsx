@@ -7,30 +7,30 @@ import { AnimatedCounter, StorageReductionVisual } from "@/components/ui/Animate
 
 export const EngineeringProofs: React.FC = () => {
   return (
-    <section id="proof" className="py-20 md:py-28 border-t border-white/5 bg-[#080B12]/60 relative">
+    <section id="proof" className="py-12 sm:py-20 md:py-28 border-t border-white/5 bg-[#080B12]/60 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-white/5"
+          className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 pb-4 sm:pb-6 border-b border-white/5"
         >
           <div>
             <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider mb-2">
               <span className="w-2 h-2 rounded-full bg-cyan-400" />
               Measurable Engineering
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
               Engineering at Scale
             </h2>
           </div>
-          <p className="mt-4 md:mt-0 text-sm text-slate-400 max-w-md">
+          <p className="mt-2 md:mt-0 text-xs sm:text-sm text-slate-400 max-w-md">
             Verifiable results from production systems. Real metrics, practical automation, and certified competence.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {/* Proof 1: 700+ Repositories */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
@@ -38,7 +38,7 @@ export const EngineeringProofs: React.FC = () => {
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.5, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
             whileHover={{ y: -3 }}
-            className="group rounded-2xl border border-white/10 bg-[#0C111C] p-6 sm:p-8 flex flex-col justify-between hover:border-cyan-500/30 transition-all duration-200"
+            className="group rounded-2xl border border-white/10 bg-[#0C111C] p-4 sm:p-8 flex flex-col justify-between hover:border-cyan-500/30 transition-all duration-200"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -107,7 +107,7 @@ export const EngineeringProofs: React.FC = () => {
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.5, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
             whileHover={{ y: -3 }}
-            className="group rounded-2xl border border-white/10 bg-[#0C111C] p-6 sm:p-8 flex flex-col justify-between hover:border-cyan-500/30 transition-all duration-200"
+            className="group rounded-2xl border border-white/10 bg-[#0C111C] p-4 sm:p-8 flex flex-col justify-between hover:border-cyan-500/30 transition-all duration-200"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -174,7 +174,7 @@ export const EngineeringProofs: React.FC = () => {
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.5, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
             whileHover={{ y: -3 }}
-            className="group rounded-2xl border border-white/10 bg-[#0C111C] p-6 sm:p-8 flex flex-col justify-between hover:border-cyan-500/30 transition-all duration-200"
+            className="group rounded-2xl border border-white/10 bg-[#0C111C] p-4 sm:p-8 flex flex-col justify-between hover:border-cyan-500/30 transition-all duration-200"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -243,7 +243,7 @@ export const EngineeringProofs: React.FC = () => {
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.5, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
             whileHover={{ y: -3 }}
-            className="group rounded-2xl border border-amber-500/30 bg-[#0C111C] p-6 sm:p-8 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-200"
+            className="group rounded-2xl border border-amber-500/30 bg-[#0C111C] p-4 sm:p-8 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-200"
           >
             <div>
               <div className="flex items-center justify-between mb-4">

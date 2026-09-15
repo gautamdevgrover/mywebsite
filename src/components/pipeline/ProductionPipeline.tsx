@@ -324,87 +324,66 @@ export const ProductionPipeline: React.FC = () => {
           </div>
         </div>
 
-        {/* 2. MOBILE VIEW: Vertical Timeline */}
-        <div className="lg:hidden space-y-3 mb-8 relative">
-          {/* Vertical Connecting Line */}
-          <div className="absolute top-6 bottom-6 left-6 w-0.5 bg-gradient-to-b from-cyan-500 via-indigo-500 to-emerald-500 -z-0" />
+        {/* 2. MOBILE VIEW: Interactive Horizontal Stage Selector Rail */}
+        <div className="lg:hidden mb-4">
+          <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-2 px-1">
+            <span>TAP STAGE TO INSPECT</span>
+            <span className="text-cyan-400 font-semibold">{currentNode.step}/08 · {currentNode.shortName}</span>
+          </div>
 
-          {nodes.map((node, index) => {
-            const isSelected = selectedNodeIndex === index;
-            return (
-              <motion.button
-                key={node.id}
-                onClick={() => setSelectedNodeIndex(index)}
-                initial={{ opacity: 0, x: -15 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: index * 0.05 }}
-                className={`w-full flex items-center justify-between p-3.5 pl-4 rounded-xl border text-left transition-all relative z-10 ${
-                  isSelected
-                    ? "bg-[#111728] border-cyan-400 shadow-md shadow-cyan-500/10"
-                    : "bg-[#0C1019] border-white/10 hover:border-white/20"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none snap-x snap-mandatory -mx-4 px-4">
+            {nodes.map((node, index) => {
+              const isSelected = selectedNodeIndex === index;
+              return (
+                <button
+                  key={node.id}
+                  onClick={() => setSelectedNodeIndex(index)}
+                  className={`flex-shrink-0 snap-center flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-mono transition-all cursor-pointer ${
+                    isSelected
+                      ? "bg-cyan-500/20 border-cyan-400 text-white shadow-md shadow-cyan-500/10 font-bold"
+                      : "bg-[#0C1019] border-white/10 text-slate-400 hover:border-white/20 hover:text-white"
+                  }`}
+                >
+                  <span
+                    className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${
                       isSelected
-                        ? "bg-cyan-500/20 text-cyan-300"
-                        : "bg-white/5 text-slate-400"
+                        ? "bg-cyan-400 text-black"
+                        : "bg-white/10 text-slate-400"
                     }`}
                   >
-                    {node.logos[0]}
-                  </div>
-
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono text-slate-500 font-bold">
-                        {node.step}
-                      </span>
-                      <span className="text-sm font-bold text-white">
-                        {node.name}
-                      </span>
-                    </div>
-                    <span className="text-xs text-slate-400 font-mono">
-                      {node.subtitle}
-                    </span>
-                  </div>
-                </div>
-
-                <ChevronRight
-                  className={`w-4 h-4 transition-transform ${
-                    isSelected ? "text-cyan-400 rotate-90" : "text-slate-600"
-                  }`}
-                />
-              </motion.button>
-            );
-          })}
+                    {node.step}
+                  </span>
+                  <span className="whitespace-nowrap">{node.shortName}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* 3. INTERACTIVE DETAIL INSPECTION PANEL */}
         {currentNode && (
           <motion.div
             key={currentNode.id}
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-2xl border border-cyan-500/30 bg-[#0B0F19] p-6 sm:p-8 shadow-2xl relative overflow-hidden"
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="rounded-2xl border border-cyan-500/30 bg-[#0B0F19] p-4 sm:p-8 shadow-2xl relative overflow-hidden"
           >
             {/* Ambient top light */}
             <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-start">
               {/* Left Column: Stage Info & Specs */}
-              <div className="lg:col-span-7 space-y-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono font-bold text-cyan-400 px-2.5 py-1 rounded bg-cyan-500/10 border border-cyan-500/30">
+              <div className="lg:col-span-7 space-y-3 sm:space-y-4">
+                <div className="flex items-center justify-between sm:justify-start gap-3">
+                  <span className="text-[11px] sm:text-xs font-mono font-bold text-cyan-400 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded bg-cyan-500/10 border border-cyan-500/30">
                     STAGE {currentNode.step} &middot; {currentNode.stage}
                   </span>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     {currentNode.logos.map((logo, lIdx) => (
                       <div
                         key={lIdx}
-                        className="p-1.5 rounded-md bg-white/5 border border-white/10"
+                        className="p-1 sm:p-1.5 rounded-md bg-white/5 border border-white/10"
                       >
                         {logo}
                       </div>
@@ -412,22 +391,22 @@ export const ProductionPipeline: React.FC = () => {
                   </div>
                 </div>
 
-                <h3 className="text-2xl font-black text-white tracking-tight">
+                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
                   {currentNode.name}
                 </h3>
 
-                <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
                   {currentNode.description}
                 </p>
 
                 {/* Key Architectural Specs */}
-                <div className="space-y-2 pt-2 border-t border-white/5">
-                  <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-2">
+                <div className="space-y-1.5 sm:space-y-2 pt-2 border-t border-white/5">
+                  <span className="text-[10px] sm:text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-1 sm:mb-2">
                     Production Specifications
                   </span>
                   {currentNode.keySpecs.map((spec, sIdx) => (
-                    <div key={sIdx} className="flex items-start gap-2.5 text-xs text-slate-300">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <div key={sIdx} className="flex items-start gap-2 sm:gap-2.5 text-[11px] sm:text-xs text-slate-300">
+                      <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400 shrink-0 mt-0.5" />
                       <span>{spec}</span>
                     </div>
                   ))}
@@ -435,9 +414,9 @@ export const ProductionPipeline: React.FC = () => {
               </div>
 
               {/* Right Column: Real Terminal Command Sample */}
-              <div className="lg:col-span-5 space-y-3">
+              <div className="lg:col-span-5 space-y-2.5 sm:space-y-3">
                 <div className="rounded-xl border border-white/10 bg-[#05070B] overflow-hidden shadow-xl">
-                  <div className="flex items-center justify-between px-4 py-2.5 bg-white/5 border-b border-white/5 text-[11px] font-mono text-slate-400">
+                  <div className="flex items-center justify-between px-3.5 py-2 bg-white/5 border-b border-white/5 text-[10px] sm:text-[11px] font-mono text-slate-400">
                     <div className="flex items-center gap-1.5">
                       <Terminal className="w-3.5 h-3.5 text-cyan-400" />
                       <span>execution_pipeline.sh</span>
@@ -448,28 +427,31 @@ export const ProductionPipeline: React.FC = () => {
                     </span>
                   </div>
 
-                  <div className="p-4 font-mono text-xs text-slate-200 overflow-x-auto">
-                    <div className="text-slate-500 mb-1 text-[11px]">
+                  <div className="p-3 sm:p-4 font-mono text-xs text-slate-200 overflow-x-auto">
+                    <div className="text-slate-500 mb-1 text-[10px] sm:text-[11px]">
                       # Executed automated command
                     </div>
-                    <div className="text-cyan-300 font-semibold leading-relaxed">
+                    <div className="text-cyan-300 font-semibold leading-relaxed text-[11px] sm:text-xs break-all sm:break-normal">
                       $ {currentNode.command}
                     </div>
-                    <div className="mt-3 text-emerald-400 text-[11px] flex items-center gap-1">
+                    <div className="mt-2.5 text-emerald-400 text-[10px] sm:text-[11px] flex items-center gap-1">
                       <span>✓ Exit code: 0 [SUCCESS]</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Next Step Nav Button */}
-                <div className="flex justify-end pt-1">
+                <div className="flex justify-between items-center pt-1">
+                  <div className="text-[10px] font-mono text-slate-500">
+                    {selectedNodeIndex + 1} of {nodes.length} stages
+                  </div>
                   <button
                     onClick={() =>
                       setSelectedNodeIndex((prev) => (prev + 1) % nodes.length)
                     }
-                    className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1.5 text-xs font-mono text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer"
                   >
-                    <span>Next Stage: {nodes[(selectedNodeIndex + 1) % nodes.length].shortName}</span>
+                    <span>Next: {nodes[(selectedNodeIndex + 1) % nodes.length].shortName}</span>
                     <ChevronRight className="w-3.5 h-3.5" />
                   </button>
                 </div>

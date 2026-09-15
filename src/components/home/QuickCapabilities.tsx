@@ -69,7 +69,7 @@ export const QuickCapabilities: React.FC = () => {
   ];
 
   return (
-    <section id="capabilities" className="py-20 md:py-28 relative">
+    <section id="capabilities" className="py-12 md:py-28 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -77,70 +77,71 @@ export const QuickCapabilities: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-white/5"
+          className="flex flex-col md:flex-row md:items-end justify-between mb-6 md:mb-12 pb-4 md:pb-6 border-b border-white/5"
         >
           <div>
-            <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider mb-2">
+            <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider mb-1.5 md:mb-2">
               <span className="w-2 h-2 rounded-full bg-cyan-400" />
               Core Capabilities
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-              What I Build, Automate & Optimize
+            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+              What I Build, Automate &amp; Optimize
             </h2>
           </div>
-          <div className="mt-4 md:mt-0">
+          <div className="mt-3 md:mt-0">
             <Link
               href="/about#services"
-              className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-cyan-400 hover:text-cyan-300 transition-colors"
+              className="inline-flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-mono font-semibold uppercase tracking-wider text-cyan-400 hover:text-cyan-300 transition-colors"
             >
               <span>View All 6 Core Services</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </Link>
           </div>
         </motion.div>
 
-        {/* 4 Cards Grid with Staggered Scroll Reveal */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* 4 Cards Grid - 2x2 on Mobile, 2 Cols on Desktop */}
+        <div className="grid grid-cols-2 gap-3 sm:gap-6">
           {capabilities.map((cap, index) => {
             const Icon = cap.icon;
             return (
               <motion.div
                 key={cap.id}
-                initial={{ opacity: 0, y: 25 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
+                viewport={{ once: true, margin: "-40px" }}
                 transition={{
-                  duration: 0.5,
-                  delay: index * 0.08,
+                  duration: 0.45,
+                  delay: index * 0.06,
                   ease: [0.16, 1, 0.3, 1],
                 }}
                 whileHover={{ y: -3 }}
-                className="group relative p-6 sm:p-8 rounded-2xl bg-[#0C1019] border border-white/10 hover:border-cyan-500/40 transition-colors duration-200 flex flex-col justify-between"
+                className="group relative p-3.5 sm:p-8 rounded-xl sm:rounded-2xl bg-[#0C1019] border border-white/10 hover:border-cyan-500/40 transition-colors duration-200 flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform">
-                      <Icon className="w-5 h-5" />
+                  <div className="flex items-center justify-between mb-2 sm:mb-4">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform">
+                      <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
-                    <span className="font-mono text-xs text-slate-500 font-bold">
+                    <span className="font-mono text-[10px] sm:text-xs text-slate-500 font-bold">
                       {cap.number}
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-white mb-1 group-hover:text-cyan-300 transition-colors">
+                  <h3 className="text-xs sm:text-xl font-bold text-white mb-0.5 sm:mb-1 group-hover:text-cyan-300 transition-colors line-clamp-1 sm:line-clamp-none">
                     {cap.title}
                   </h3>
-                  <div className="text-xs font-mono text-slate-400 mb-3">
+                  <div className="text-[10px] sm:text-xs font-mono text-cyan-400/90 sm:text-slate-400 mb-1.5 sm:mb-3 line-clamp-1">
                     {cap.headline}
                   </div>
 
-                  <p className="text-sm text-slate-300 leading-relaxed mb-6 font-normal">
+                  <p className="text-[11px] sm:text-sm text-slate-300/90 leading-relaxed mb-3 sm:mb-6 font-normal line-clamp-2 sm:line-clamp-none">
                     {cap.description}
                   </p>
                 </div>
 
                 <div>
-                  <div className="flex flex-wrap gap-1.5 mb-5">
+                  {/* Tags: Hidden on tiny mobile screens, visible on desktop */}
+                  <div className="hidden sm:flex flex-wrap gap-1.5 mb-5">
                     {cap.tags.map((tag) => (
                       <span
                         key={tag}
@@ -153,10 +154,10 @@ export const QuickCapabilities: React.FC = () => {
 
                   <Link
                     href="/about#services"
-                    className="inline-flex items-center gap-2 text-xs font-mono font-semibold text-slate-400 group-hover:text-white transition-colors"
+                    className="inline-flex items-center gap-1 sm:gap-2 text-[10px] sm:text-xs font-mono font-semibold text-slate-400 group-hover:text-white transition-colors"
                   >
-                    <span>Explore service deliverables</span>
-                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 text-cyan-400" />
+                    <span className="truncate">Deliverables</span>
+                    <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 transition-transform group-hover:translate-x-1 text-cyan-400 shrink-0" />
                   </Link>
                 </div>
               </motion.div>

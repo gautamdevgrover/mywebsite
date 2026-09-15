@@ -29,24 +29,24 @@ export const Navbar: React.FC = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "py-3 bg-[#08090C]/90 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/40"
-          : "py-5 bg-transparent border-b border-white/5"
+          ? "py-2.5 md:py-3 bg-[#08090C]/90 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/40"
+          : "py-3 md:py-5 bg-[#08090C]/60 md:bg-transparent backdrop-blur-sm md:backdrop-blur-none border-b border-white/5"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Brand Identity */}
         <Link
           href="/"
-          className="group flex items-center gap-3 transition-opacity hover:opacity-90"
+          className="group flex items-center gap-2.5 sm:gap-3 transition-opacity hover:opacity-90"
         >
-          <div className="relative flex items-center justify-center w-9 h-9 rounded-lg bg-white/5 border border-white/10 group-hover:border-cyan-500/40 transition-colors">
-            <span className="font-mono text-sm font-black text-white tracking-tight">GD</span>
+          <div className="relative flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-white/5 border border-white/10 group-hover:border-cyan-500/40 transition-colors">
+            <span className="font-mono text-xs sm:text-sm font-black text-white tracking-tight">GD</span>
             <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           </div>
 
           <div className="flex flex-col">
-            <div className="flex items-center gap-2">
-              <span className="text-base font-bold tracking-wider text-white group-hover:text-cyan-400 transition-colors">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="text-sm sm:text-base font-bold tracking-wider text-white group-hover:text-cyan-400 transition-colors">
                 {siteConfig.brand.name}
               </span>
               <span className="hidden md:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-medium text-emerald-400 bg-emerald-950/60 border border-emerald-800/40">
@@ -54,7 +54,7 @@ export const Navbar: React.FC = () => {
                 CKA
               </span>
             </div>
-            <span className="text-[11px] font-mono tracking-tight text-slate-400">
+            <span className="text-[10px] sm:text-[11px] font-mono tracking-tight text-slate-400 hidden xs:inline sm:inline">
               {siteConfig.brand.tagline}
             </span>
           </div>

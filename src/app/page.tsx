@@ -33,17 +33,17 @@ export default function HomePage() {
         <TrustStrip />
 
         {/* 7. Official CKA Kubernetes Certification Spotlight */}
-        <section id="certification" className="py-16 md:py-24 border-t border-white/10 bg-[#080B14] relative">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <section id="certification" className="py-10 sm:py-16 md:py-24 border-t border-white/10 bg-[#080B14] relative">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 sm:space-y-8">
             <div className="text-center space-y-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-mono">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 <span>OFFICIAL INDUSTRY CERTIFICATION</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight">
+              <h2 className="text-xl sm:text-3xl md:text-4xl font-black text-white tracking-tight">
                 Certified Kubernetes Administrator (CKA)
               </h2>
-              <p className="text-sm text-slate-400 max-w-xl mx-auto font-mono">
+              <p className="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto font-mono">
                 Verified hands-on cluster architecture, deployment, and troubleshooting credential issued by Cloud Native Computing Foundation (CNCF) &amp; The Linux Foundation.
               </p>
             </div>

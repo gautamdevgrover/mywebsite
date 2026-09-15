@@ -24,7 +24,7 @@ export const HeroPhotoFrame: React.FC<HeroPhotoFrameProps> = ({
       initial={{ opacity: 0, scale: 0.97, y: 16 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-      className="relative w-full max-w-lg mx-auto lg:max-w-none"
+      className="relative w-full max-w-sm sm:max-w-md lg:max-w-none mx-auto"
     >
       {/* Calm ambient background glow */}
       <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-500/10 via-indigo-500/10 to-transparent rounded-3xl blur-2xl -z-10 pointer-events-none" />
@@ -43,8 +43,8 @@ export const HeroPhotoFrame: React.FC<HeroPhotoFrameProps> = ({
           </div>
         </div>
 
-        {/* Photo Canvas */}
-        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-[#0E131F]">
+        {/* Photo Canvas - 16/10 on mobile, 4/3 on tablet, 4/5 on desktop */}
+        <div className="relative aspect-[16/10] sm:aspect-[4/3] lg:aspect-[4/5] w-full overflow-hidden rounded-lg bg-[#0E131F]">
           <Image
             src={imgSrc}
             alt={alt}

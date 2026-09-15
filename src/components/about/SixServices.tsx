@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Cloud,
   GitBranch,
@@ -11,6 +11,7 @@ import {
   Terminal,
   Check,
   ArrowRight,
+  ChevronDown,
 } from "lucide-react";
 import {
   AwsLogo,
@@ -31,6 +32,15 @@ import {
 import Link from "next/link";
 
 export const SixServices: React.FC = () => {
+  const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
+
+  const toggleDeliverables = (num: string) => {
+    setExpandedCards((prev) => ({
+      ...prev,
+      [num]: !prev[num],
+    }));
+  };
+
   const services = [
     {
       number: "01",
@@ -150,32 +160,34 @@ export const SixServices: React.FC = () => {
   ];
 
   return (
-    <section id="services" className="py-20 md:py-28 relative">
+    <section id="services" className="py-12 sm:py-20 md:py-28 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-white/5"
+          className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 pb-4 sm:pb-6 border-b border-white/5"
         >
           <div>
             <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-wider mb-2">
               <span className="w-2 h-2 rounded-full bg-cyan-400" />
               Core Capabilities
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
               6 Core Engineering Services
             </h2>
           </div>
-          <p className="mt-4 md:mt-0 text-sm text-slate-400 max-w-md">
+          <p className="mt-2 md:mt-0 text-xs sm:text-sm text-slate-400 max-w-md">
             Direct, hands-on infrastructure execution. No outsourced layers or junior pass-offs.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {services.map((srv, index) => {
             const Icon = srv.icon;
+            const isExpanded = !!expandedCards[srv.number];
+
             return (
               <motion.div
                 key={srv.number}
@@ -188,13 +200,13 @@ export const SixServices: React.FC = () => {
                   ease: [0.16, 1, 0.3, 1],
                 }}
                 whileHover={{ y: -3 }}
-                className="group relative rounded-2xl border border-white/10 bg-[#0C111C] p-6 sm:p-7 flex flex-col justify-between hover:border-cyan-500/40 hover:bg-[#0E1524] transition-all duration-200"
+                className="group relative rounded-2xl border border-white/10 bg-[#0C111C] p-4 sm:p-7 flex flex-col justify-between hover:border-cyan-500/40 hover:bg-[#0E1524] transition-all duration-200"
               >
                 <div>
                   {/* Top Bar */}
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform">
-                      <Icon className="w-5 h-5" />
+                  <div className="flex items-center justify-between mb-3 sm:mb-5">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform">
+                      <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
                     <span className="font-mono text-xs font-bold text-slate-500">
                       SERVICE {srv.number}
@@ -202,19 +214,54 @@ export const SixServices: React.FC = () => {
                   </div>
 
                   {/* Title & Tagline */}
-                  <h3 className="text-xl font-bold text-white tracking-tight mb-1 group-hover:text-cyan-300 transition-colors">
+                  <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight mb-1 group-hover:text-cyan-300 transition-colors">
                     {srv.title}
                   </h3>
-                  <div className="text-xs font-mono text-slate-400 mb-3">
+                  <div className="text-xs font-mono text-slate-400 mb-2 sm:mb-3">
                     {srv.tagline}
                   </div>
 
-                  <p className="text-sm text-slate-300 leading-relaxed mb-6 font-normal">
+                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-3 sm:mb-6 font-normal">
                     {srv.description}
                   </p>
 
-                  {/* Deliverables List */}
-                  <div className="space-y-2 mb-6 border-t border-white/5 pt-4">
+                  {/* Mobile Deliverables Toggle (< sm) */}
+                  <div className="sm:hidden mb-3 border-t border-white/5 pt-3">
+                    <button
+                      type="button"
+                      onClick={() => toggleDeliverables(srv.number)}
+                      className="flex items-center justify-between w-full py-1.5 px-2.5 rounded-lg bg-white/[0.03] hover:bg-white/[0.06] border border-white/5 text-[11px] font-mono text-cyan-400 transition-colors"
+                    >
+                      <span>Key Deliverables ({srv.deliverables.length})</span>
+                      <ChevronDown
+                        className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                          isExpanded ? "rotate-180 text-cyan-300" : ""
+                        }`}
+                      />
+                    </button>
+
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="space-y-1.5 pt-2.5 overflow-hidden"
+                        >
+                          {srv.deliverables.map((item, idx) => (
+                            <div key={idx} className="flex items-start gap-2 text-xs text-slate-300">
+                              <Check className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
+                              <span className="text-[11px] leading-tight">{item}</span>
+                            </div>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Desktop Deliverables List (>= sm) */}
+                  <div className="hidden sm:block space-y-2 mb-6 border-t border-white/5 pt-4">
                     <span className="text-[11px] font-mono text-slate-500 uppercase tracking-wider block mb-2">
                       Key Deliverables
                     </span>
@@ -228,8 +275,8 @@ export const SixServices: React.FC = () => {
                 </div>
 
                 {/* Footer: Tech Logos + CTA */}
-                <div className="pt-4 border-t border-white/5 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                <div className="pt-3 sm:pt-4 border-t border-white/5 flex items-center justify-between">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
                     {srv.logos.map((logo) => (
                       <div
                         key={logo.key}
